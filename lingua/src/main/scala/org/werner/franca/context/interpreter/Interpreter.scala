@@ -11,22 +11,16 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package org.werner.franca
+package org.werner.franca.context.interpreter
 
-package object lingua {
-  abstract class ExternalInput[T] extends PartialState[T]
+import org.werner.franca.context.Interpretable
+import org.werner.franca.lingua.PartialState
 
-  case object IntKeyboardInput extends ExternalInput[Int]
+object Interpreter {
+  def apply[R, T<:PartialState[R]](state: T)(implicit interpreter: Interpretable[R, T]): R =
+    interpreter.execute(state)
 
-  abstract class ExternalOutput extends PartialState[Nothing]
+  def int[T<:PartialState[Int]](state: T)(implicit interpreter: Interpretable[Int, T]): Int =
+    apply[Int, T](state)
 
-  trait IntResult {
-    Self: ExternalOutput =>
-  }
-
-  case class ReturnInt(partialState: PartialState[Int]) extends ExternalOutput with IntResult
-
-  case class PrintInt(partialState: PartialState[Int]) extends ExternalOutput
-
-  case class StaticValue[T](value: T) extends PartialState[T]
 }
