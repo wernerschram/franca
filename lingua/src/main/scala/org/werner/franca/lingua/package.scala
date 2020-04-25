@@ -18,7 +18,7 @@ package object lingua {
 
   case object IntKeyboardInput extends ExternalInput[Int]
 
-  abstract class ExternalOutput extends PartialState[Nothing]
+  abstract class ExternalOutput extends PartialState[Unit]
 
   trait IntResult {
     Self: ExternalOutput =>

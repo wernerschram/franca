@@ -13,14 +13,22 @@
 
 package org.werner.franca.context.interpreter
 
-import org.werner.franca.context.Interpretable
-import org.werner.franca.lingua.PartialState
+import org.werner.franca.lingua.operation.Add
+import org.werner.franca.lingua.{IntKeyboardInput, PrintInt, StaticValue}
 
 object Interpreter {
-  def apply[R, T<:PartialState[R]](state: T)(implicit interpreter: Interpretable[R, T]): R =
-    interpreter.execute(state)
+  val intMapping: Map[Class[_], Object => Int] = Map(
+    classOf[Add] -> (state => addIsInterpretable(state.asInstanceOf[Add])),
+    IntKeyboardInput.getClass -> (_ => intKeyboardInputIsInterpretable),
+    classOf[StaticValue[Int]] -> (state => staticValueIsInterpretable(state.asInstanceOf[StaticValue[Int]])),
+  )
 
-  def int[T<:PartialState[Int]](state: T)(implicit interpreter: Interpretable[Int, T]): Int =
-    apply[Int, T](state)
+  val unitMapping: Map[Class[_], Object => Unit] = Map(
+    classOf[PrintInt] -> (state => printIntIsInterpretable(state.asInstanceOf[PrintInt]))
+  )
+
+  def int(state: Object): Int = intMapping(state.getClass).apply(state)
+
+  def unit(state: Object): Unit = unitMapping(state.getClass).apply(state)
 
 }

@@ -13,19 +13,22 @@
 
 package org.werner.franca.context
 
-import org.werner.franca.lingua.{IntKeyboardInput, PartialState, StaticValue}
+import org.werner.franca.lingua.{IntKeyboardInput, PartialState, PrintInt, StaticValue}
 import org.werner.franca.lingua.operation.Add
 
 import scala.io.StdIn
 
 package object interpreter {
-  implicit def addIsInterpretable[I1 <: PartialState[Int], I2 <: PartialState[Int]](
-    implicit interpretable1: Interpretable[Int, I1],
-    interpretable2: Interpretable[Int, I2]): Interpretable[Int, Add[I1, I2]] =
-    add => interpretable1.execute(add.state1) + interpretable2.execute(add.state2)
+  def addIsInterpretable(add: Add): Int =
+      Interpreter.int(add.state1) + Interpreter.int(add.state2)
 
-  implicit def staticValueIsInterpretable[T]: Interpretable[T, StaticValue[T]] = state => state.value
+  def staticValueIsInterpretable[T](state: StaticValue[T]) = state.value
 
-  implicit def intKeyboardInputIsInterpretable: Interpretable[Int, IntKeyboardInput.type] =
-    _ => StdIn.readInt()
+  def intKeyboardInputIsInterpretable: Int =
+    StdIn.readInt()
+
+  implicit def printIntIsInterpretable(printInt: PrintInt): Unit = {
+      val result = Interpreter.int(printInt.partialState)
+      println(result)
+  }
 }

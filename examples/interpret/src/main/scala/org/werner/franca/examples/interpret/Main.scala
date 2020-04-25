@@ -15,10 +15,10 @@ package org.werner.franca.examples.interpret
 
 import org.werner.franca.context.interpreter._
 import org.werner.franca.lingua.operation.Add
-import org.werner.franca.lingua.{IntKeyboardInput, StaticValue}
+import org.werner.franca.lingua.{IntKeyboardInput, PrintInt, StaticValue}
 
 object Main extends App {
-  val r = Add(Add(StaticValue(2), IntKeyboardInput), StaticValue(4))
+  val r = PrintInt(Add(Add(StaticValue(2), IntKeyboardInput), StaticValue(4)))
   println("started")
-  println(Interpreter.int(r))
+  Interpreter.unit(r)
 }
