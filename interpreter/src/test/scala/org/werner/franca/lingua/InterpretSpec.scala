@@ -15,7 +15,6 @@ package org.werner.franca.lingua
 
 import org.scalatest.{Matchers, WordSpec}
 import org.werner.franca.context.interpreter._
-import org.werner.franca.lingua.operation.Add
 
 class InterpretSpec extends WordSpec with Matchers {
   "a franca.lingua application" should {

@@ -11,22 +11,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package org.werner.franca
-
-package object lingua {
-  abstract class ExternalInput[T] extends PartialState[T]
-
-  case object IntKeyboardInput extends ExternalInput[Int]
-
-  abstract class ExternalOutput extends PartialState[Unit]
-
-  trait IntResult {
-    Self: ExternalOutput =>
-  }
-
-  case class ReturnInt(partialState: PartialState[Int]) extends ExternalOutput with IntResult
-
-  case class PrintInt(partialState: PartialState[Int]) extends ExternalOutput
-
-  case class StaticValue[T](value: T) extends PartialState[T]
-}
+package org.werner.franca.lingua
+case class Add(override val state1: PartialState[Int], override val state2: PartialState[Int]) extends Operation2[Int, Int, Int](state1, state2)
+case object IntKeyboardInput extends PartialState[Int]
+case class PrintInt(state: PartialState[Int]) extends Operation1[Unit, Int](state)
+case class StaticValue[T](value: T) extends PartialState[T]

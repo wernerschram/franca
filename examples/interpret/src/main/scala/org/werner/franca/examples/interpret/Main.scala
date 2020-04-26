@@ -14,8 +14,8 @@
 package org.werner.franca.examples.interpret
 
 import org.werner.franca.context.interpreter._
-import org.werner.franca.lingua.operation.Add
-import org.werner.franca.lingua.{IntKeyboardInput, PrintInt, StaticValue}
+
+import org.werner.franca.lingua.{Add, IntKeyboardInput, PrintInt, StaticValue}
 
 object Main extends App {
   val r = PrintInt(Add(Add(StaticValue(2), IntKeyboardInput), StaticValue(4)))

@@ -13,4 +13,9 @@
 
 package org.werner.franca.lingua
 
-abstract class PartialState[T] {}
+class PartialState[R]
+
+class Operation1[R, T1](val state1: PartialState[T1]) extends PartialState[R]
+class Operation2[R, T1, T2](val state1: PartialState[T1], val state2: PartialState[R]) extends PartialState[R]
+
+final class HasTypeDiscriminator[DT, T](val name: DT)
